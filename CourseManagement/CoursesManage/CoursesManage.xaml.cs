@@ -1,6 +1,9 @@
-﻿using System;
+﻿using BusinessObjects;
+using DataAccessLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,6 +22,8 @@ namespace CourseManagement.CoursesManage
     /// </summary>
     public partial class CoursesManage : Window
     {
+        private readonly CourseManagementDbContext _context;
+        private readonly CourseDAO _courseDAO;
         public CoursesManage()
         {
             InitializeComponent();

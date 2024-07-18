@@ -9,38 +9,39 @@ namespace DataAccessLayer
 {
     public class CourseDAO
     {
-        private static List<Course> GetCourses()
+        private readonly CourseManagementDbContext _context;
+
+        public CourseDAO(CourseManagementDbContext context)
         {
-            List<Course> courses = new List<Course>();
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            courses = db.Courses.ToList();
-            return courses;
+            _context = context;
         }
 
-        private static void DeleteCourse(Course course)
+        public List<Course> GetCourses()
         {
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            db.Courses.Remove(course);
+            return _context.Courses.ToList();
         }
 
-        private static void UpdateCourse(Course course)
+        public void DeleteCourse(Course course)
         {
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            db.Courses.Update(course);
+            _context.Courses.Remove(course);
+            _context.SaveChanges(); 
         }
 
-        private static void CreateCourse(Course course)
+        public void UpdateCourse(Course course)
         {
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            db.Courses.Add(course);
+            _context.Courses.Update(course);
+            _context.SaveChanges(); 
         }
 
-        private static Course? GetCourseById(int id)
+        public void CreateCourse(Course course)
         {
-            Course? course = new Course();
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            course = db.Courses.Find(id);
-            return course;
+            _context.Courses.Add(course);
+            _context.SaveChanges(); 
+        }
+
+        public Course GetCourseById(int id)
+        {
+            return _context.Courses.Find(id);
         }
     }
 }
