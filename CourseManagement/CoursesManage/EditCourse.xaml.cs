@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,19 +20,35 @@ namespace CourseManagement.CoursesManage
     /// </summary>
     public partial class EditCourse : Window
     {
-        public EditCourse()
+
+        public Course ExistingCourse { get; private set; }
+        public EditCourse(Course course)
         {
             InitializeComponent();
+            
+            ExistingCourse = course;
+            txtCourseId.Text = course.Id.ToString();
+            txtCourseCode.Text = course.Code;
+            txtCourseTitle.Text = course.Title;
+            txtCredits.Text = course.Credits?.ToString();
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-
+           ExistingCourse.Code = txtCourseCode.Text;
+           ExistingCourse.Title = txtCourseTitle.Text;
+           if (byte.TryParse(txtCredits.Text, out byte credits))
+            {
+                ExistingCourse.Credits = credits;
+            }
+            DialogResult = true;
+            Close();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogResult = false;
+            Close();
         }
     }
 }
