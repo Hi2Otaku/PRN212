@@ -46,10 +46,75 @@ namespace CourseManagement.CoursesManage
             dgCourses.ItemsSource = _courseDAO.GetCourses();
             LoadComboBoxes ();
         }
+        private void btnAddCourse_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AddCourse();
+            if (dialog.ShowDialog() == true)
+            {
+                _courseDAO.CreateCourse(dialog.NewCourse);
+                dgCourses.ItemsSource = _courseDAO.GetCourses();
+                LoadComboBoxes();    
+            }
+        }
 
+        private void btnUpdateCourse_Click(object sender, RoutedEventArgs e)
+        {
+            if(dgCourses.SelectedItem is Course selectedCourse)
+            {
+                var dialog = new EditCourse(selectedCourse);
+                if(dialog.ShowDialog() == true)
+                {
+                    _courseDAO.UpdateCourse(dialog.ExistingCourse);
+                    dgCourses.ItemsSource = _courseDAO.GetCourses();
+                    LoadComboBoxes();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a course to update.","Information",MessageBoxButton.OK,MessageBoxImage.Information);
+            }
+        }
+
+        private void btnDeleteCourse_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgCourses.SelectedItem is Course selectedCourse)
+            {
+                var result = MessageBox.Show($"Are you sure want to delete the course '{selectedCourse.Title}'?", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    _courseDAO.DeleteCourse(selectedCourse);
+                    dgCourses.ItemsSource = _courseDAO.GetCourses();
+                    LoadComboBoxes() ;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a course to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        private void FilterCourses(object sender, SelectionChangedEventArgs e)
+        {
+            string codeFilter = cbFilterCode.SelectedItem?.ToString().ToLower();
+            string titleFilter = cbFilterTitle.SelectedItem?.ToString().ToLower();
+
+            var filteredCourses = _courseDAO.GetCourses()
+                .Where(c => (string.IsNullOrEmpty(codeFilter) || c.Code.ToLower().Contains(codeFilter)) &&
+                            (string.IsNullOrEmpty(titleFilter) || c.Title.ToLower().Contains(titleFilter)))
+                .ToList();
+
+            dgCourses.ItemsSource = filteredCourses;
+        }
+
+        private void btnClearFilter_Click(object sender, RoutedEventArgs e)
+        {
+            cbFilterCode.SelectedItem = null;
+            cbFilterTitle.SelectedItem = null;
+            dgCourses.ItemsSource = _courseDAO.GetCourses();
+        }
         private void btnCourses_Click(object sender, RoutedEventArgs e)
         {
-
+            dgCourses.ItemsSource = _courseDAO.GetCourses();
+            LoadComboBoxes();
         }
 
         private void btnStudents_Click(object sender, RoutedEventArgs e)
@@ -77,36 +142,9 @@ namespace CourseManagement.CoursesManage
 
         }
 
-        private void btnAddCourse_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnUpdateCourse_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnDeleteCourse_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
-        private void FilterCourses(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void btnClearFilter_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-    
     }
 }
