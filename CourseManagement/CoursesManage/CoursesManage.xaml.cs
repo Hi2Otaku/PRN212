@@ -27,6 +27,86 @@ namespace CourseManagement.CoursesManage
         public CoursesManage()
         {
             InitializeComponent();
+            _context = new CourseManagementDbContext();
+            _courseDAO= new CourseDAO(_context);
+            LoadComboBoxes();
         }
+        private void LoadComboBoxes()
+        {
+            var course = _courseDAO.GetCourses();
+            var codes = course.Select(c => c.Code).Distinct().ToList();
+            var titles = course.Select(t => t.Title).Distinct().ToList();
+
+            cbFilterCode.ItemsSource = codes;
+            cbFilterTitle.ItemsSource = titles;
+        }
+
+        private void btnLoadCourses_Click(object sender, RoutedEventArgs e)
+        {
+            dgCourses.ItemsSource = _courseDAO.GetCourses();
+            LoadComboBoxes ();
+        }
+
+        private void btnCourses_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnStudents_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnDepartments_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnSemesters_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnAssessments_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnEnrollment_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnAddCourse_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnUpdateCourse_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnDeleteCourse_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FilterCourses(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void btnClearFilter_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+    
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,29 @@ namespace CourseManagement.CoursesManage
     /// </summary>
     public partial class AddCourse : Window
     {
+        public Course NewCourse { get; private set; }
         public AddCourse()
         {
             InitializeComponent();
+            NewCourse = new Course();
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            NewCourse.Code = txtCourseCode.Text;
+            NewCourse.Title = txtCourseTitle.Text;
+            if (byte.TryParse(txtCredits.Text, out byte credits))
+            {
+                NewCourse.Credits = credits;
+            }
+            DialogResult = true;
+            Close();
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            Close();
         }
     }
 }
