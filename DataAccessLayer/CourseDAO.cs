@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,24 @@ namespace DataAccessLayer
             _context.Courses.Add(course);
             _context.SaveChanges(); 
         }
+        public List<int> GetCredits()
+        {
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = "SELECT DISTINCT Credits FROM Courses";
+                _context.Database.OpenConnection();
 
+                using (var result = command.ExecuteReader())
+                {
+                    var credits = new List<int>();
+                    while (result.Read())
+                    {
+                        credits.Add(Convert.ToInt32(result.GetValue(0)));
+                    }
+                    return credits;
+                }
+            }
+        }
         public Course GetCourseById(int id)
         {
             return _context.Courses.Find(id);

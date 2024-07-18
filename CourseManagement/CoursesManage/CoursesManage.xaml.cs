@@ -36,9 +36,11 @@ namespace CourseManagement.CoursesManage
             var course = _courseDAO.GetCourses();
             var codes = course.Select(c => c.Code).Distinct().ToList();
             var titles = course.Select(t => t.Title).Distinct().ToList();
+            var credits = _courseDAO.GetCredits().OrderBy(c => c).ToList();
 
             cbFilterCode.ItemsSource = codes;
             cbFilterTitle.ItemsSource = titles;
+            cboFilterCredits.ItemsSource = credits;
         }
 
         private void btnLoadCourses_Click(object sender, RoutedEventArgs e)
@@ -96,10 +98,11 @@ namespace CourseManagement.CoursesManage
         {
             string codeFilter = cbFilterCode.SelectedItem?.ToString().ToLower();
             string titleFilter = cbFilterTitle.SelectedItem?.ToString().ToLower();
-
+            int? creditFilter = cboFilterCredits.SelectedItem as int?;
             var filteredCourses = _courseDAO.GetCourses()
                 .Where(c => (string.IsNullOrEmpty(codeFilter) || c.Code.ToLower().Contains(codeFilter)) &&
-                            (string.IsNullOrEmpty(titleFilter) || c.Title.ToLower().Contains(titleFilter)))
+                            (string.IsNullOrEmpty(titleFilter) || c.Title.ToLower().Contains(titleFilter)) &&
+                            (!creditFilter.HasValue || c.Credits == creditFilter))
                 .ToList();
 
             dgCourses.ItemsSource = filteredCourses;
@@ -109,6 +112,7 @@ namespace CourseManagement.CoursesManage
         {
             cbFilterCode.SelectedItem = null;
             cbFilterTitle.SelectedItem = null;
+            cboFilterCredits.SelectedItem = null;
             dgCourses.ItemsSource = _courseDAO.GetCourses();
         }
         private void btnCourses_Click(object sender, RoutedEventArgs e)
