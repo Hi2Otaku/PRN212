@@ -1,8 +1,8 @@
-﻿<Application x:Class="CourseManagement.App"
+﻿<Application x:Class="Repositories.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:CourseManagement"
-             StartupUri="SemesterManagement.xaml">
+             xmlns:local="clr-namespace:Repositories"
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
          
     </Application.Resources>
