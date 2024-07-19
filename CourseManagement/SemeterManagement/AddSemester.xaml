@@ -26,9 +26,9 @@
             <Label Content="Year"/>
             <TextBox x:Name="txtYear" SelectionChanged="txtYear_SelectionChanged" Height="25"/>
             <Label Content="Begin Date"/>
-            <DatePicker x:Name="txtStartDate" Height="25"/>
+            <DatePicker x:Name="txtStartDate" SelectedDateChanged="txtStartDate_SelectedDateChanged" Height="25"/>
             <Label Content="End Date"/>
-            <DatePicker x:Name="txtEndDate" Height="25"/>
+            <DatePicker x:Name="txtEndDate" SelectedDateChanged="txtEndDate_SelectedDateChanged" Height="25"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button x:Name="btnAdd" Content="Add" Click="btnAdd_Click" Width="150" Height="40" FontSize="26" Background="LightGreen"/>
