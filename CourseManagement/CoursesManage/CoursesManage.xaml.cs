@@ -30,23 +30,22 @@ namespace CourseManagement.CoursesManage
             _context = new CourseManagementDbContext();
             _courseDAO= new CourseDAO(_context);
             LoadComboBoxes();
+            LoadCourses();
         }
         private void LoadComboBoxes()
         {
             var course = _courseDAO.GetCourses();
-            var codes = course.Select(c => c.Code).Distinct().ToList();
             var titles = course.Select(t => t.Title).Distinct().ToList();
             var credits = _courseDAO.GetCredits().OrderBy(c => c).ToList();
 
-            cbFilterCode.ItemsSource = codes;
             cbFilterTitle.ItemsSource = titles;
             cboFilterCredits.ItemsSource = credits;
         }
 
-        private void btnLoadCourses_Click(object sender, RoutedEventArgs e)
+        private void LoadCourses()
         {
             dgCourses.ItemsSource = _courseDAO.GetCourses();
-            LoadComboBoxes ();
+            LoadComboBoxes();
         }
         private void btnAddCourse_Click(object sender, RoutedEventArgs e)
         {
@@ -55,8 +54,9 @@ namespace CourseManagement.CoursesManage
             {
                 _courseDAO.CreateCourse(dialog.NewCourse);
                 dgCourses.ItemsSource = _courseDAO.GetCourses();
-                LoadComboBoxes();    
+                LoadComboBoxes();
             }
+
         }
 
         private void btnUpdateCourse_Click(object sender, RoutedEventArgs e)
@@ -81,27 +81,26 @@ namespace CourseManagement.CoursesManage
         {
             if (dgCourses.SelectedItem is Course selectedCourse)
             {
-                var result = MessageBox.Show($"Are you sure want to delete the course '{selectedCourse.Title}'?", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                var result = MessageBox.Show($"Are you sure you want to delete the course '{selectedCourse.Title}'?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (result == MessageBoxResult.Yes)
                 {
                     _courseDAO.DeleteCourse(selectedCourse);
                     dgCourses.ItemsSource = _courseDAO.GetCourses();
-                    LoadComboBoxes() ;
+                    LoadComboBoxes();
                 }
             }
-            else
+              else
             {
                 MessageBox.Show("Please select a course to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
         private void FilterCourses(object sender, SelectionChangedEventArgs e)
         {
-            string codeFilter = cbFilterCode.SelectedItem?.ToString().ToLower();
+ 
             string titleFilter = cbFilterTitle.SelectedItem?.ToString().ToLower();
             int? creditFilter = cboFilterCredits.SelectedItem as int?;
             var filteredCourses = _courseDAO.GetCourses()
-                .Where(c => (string.IsNullOrEmpty(codeFilter) || c.Code.ToLower().Contains(codeFilter)) &&
-                            (string.IsNullOrEmpty(titleFilter) || c.Title.ToLower().Contains(titleFilter)) &&
+                .Where(c => (string.IsNullOrEmpty(titleFilter) || c.Title.ToLower().Contains(titleFilter)) &&
                             (!creditFilter.HasValue || c.Credits == creditFilter))
                 .ToList();
 
@@ -110,7 +109,6 @@ namespace CourseManagement.CoursesManage
 
         private void btnClearFilter_Click(object sender, RoutedEventArgs e)
         {
-            cbFilterCode.SelectedItem = null;
             cbFilterTitle.SelectedItem = null;
             cboFilterCredits.SelectedItem = null;
             dgCourses.ItemsSource = _courseDAO.GetCourses();
@@ -119,6 +117,20 @@ namespace CourseManagement.CoursesManage
         {
             dgCourses.ItemsSource = _courseDAO.GetCourses();
             LoadComboBoxes();
+        }
+
+        private void btnViewAssessments_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (dgCourses.SelectedItem is Course selectedCourse)
+            {
+                var assessmentsWindow = new ViewAssessment(selectedCourse.Id);
+                assessmentsWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Please select a course to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void btnStudents_Click(object sender, RoutedEventArgs e)
@@ -136,17 +148,17 @@ namespace CourseManagement.CoursesManage
 
         }
 
-        private void btnAssessments_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void btnEnrollment_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnHome_Click(object sender, RoutedEventArgs e)
         {
 
         }

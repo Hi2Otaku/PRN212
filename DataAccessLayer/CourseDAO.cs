@@ -24,8 +24,12 @@ namespace DataAccessLayer
 
         public void DeleteCourse(Course course)
         {
-            _context.Courses.Remove(course);
-            _context.SaveChanges(); 
+            var existingCourse = _context.Courses.Find(course.Id);
+            if (existingCourse != null)
+            {
+                _context.Courses.Remove(existingCourse);
+                _context.SaveChanges();
+            }
         }
 
         public void UpdateCourse(Course course)
@@ -34,9 +38,10 @@ namespace DataAccessLayer
             _context.SaveChanges(); 
         }
 
-        public void CreateCourse(Course course)
+        public void CreateCourse(Course NewCourse)
         {
-            _context.Courses.Add(course);
+            NewCourse.Id = GetNextCourseId();
+            _context.Courses.Add(NewCourse);
             _context.SaveChanges(); 
         }
         public List<int> GetCredits()
@@ -60,6 +65,10 @@ namespace DataAccessLayer
         public Course GetCourseById(int id)
         {
             return _context.Courses.Find(id);
+        }
+        private int GetNextCourseId()
+        {
+            return _context.Courses.Any() ? _context.Courses.Max(c => c.Id) + 1 : 1;
         }
     }
 }
