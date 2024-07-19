@@ -29,39 +29,30 @@ namespace CourseManagement
 
         public void Button_Click(object sender, RoutedEventArgs e)
         {
-            
-                CourseManagementDbContext db = new CourseManagementDbContext();
-                if (txtUserName.Text == "" || txtPassword.Password == "")
+
+            CourseManagementDbContext db = new CourseManagementDbContext();
+            if (txtUserName.Text == "" || txtPassword.Password == "")
+            {
+                MessageBox.Show("Please provide UserName and Password");
+                return;
+            }
+            else
+            {
+                string username = txtUserName.Text;
+                string password = txtPassword.Password;
+                AccountMember accountMember = AccountMemberDAO.CheckExist(username, password);
+                if (accountMember == null)
                 {
-                    MessageBox.Show("Please provide UserName and Password");
-                    return;
+                    MessageBox.Show("Username or Password incorrect!");
                 }
                 else
                 {
-                    string username = txtUserName.Text;
-                    string password = txtPassword.Password;
-                    AccountMember accountMember = AccountMemberDAO.CheckExist(username, password);
-                    if (accountMember == null)
-                    {
-                        MessageBox.Show("Username or Password incorrect!");
-                    }
-                    else
-                    {
-                        if (accountMember.Role == 1)
-                        {
-                            admin ad = new admin();
-                            ad.Show();
-                            this.Hide();
-                        }
-                        if (accountMember.Role == 2)
-                        {
-                            staff st = new staff();
-                            st.Show();
-                            this.Hide();
-                        }
-                    }
+                    admin ad = new admin(accountMember);
+                    ad.Show();
+                    this.Close();
                 }
             }
-        
+        }
+
     }
 }

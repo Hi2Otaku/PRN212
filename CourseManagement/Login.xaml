@@ -8,16 +8,21 @@
         Title="Login" Height="450" Width="800" Background="#FFEEEEEE">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
+
+        <Label x:Name="lblLogin" Content="Login" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" FontSize="50"/>
 
         <!-- User Name Label -->
         <Label Content="User Name:" Grid.Row="1" Grid.Column="1" 
@@ -28,7 +33,7 @@
         <TextBox x:Name="txtUserName" Grid.Row="1" Grid.Column="2" 
                  Width="200" Height="30" Margin="10,0,0,10"
                  FontSize="16" Padding="5" BorderBrush="#AAAAAA" BorderThickness="1"
-                 Background="White" Foreground="#333333"/>
+                 Background="White" Foreground="#333333" Grid.ColumnSpan="3"/>
 
         <!-- Password Label -->
         <Label Content="Password:" Grid.Row="2" Grid.Column="1" 
@@ -39,13 +44,13 @@
         <PasswordBox x:Name="txtPassword" Grid.Row="2" Grid.Column="2" 
                      Width="200" Height="30" Margin="10,0,0,10"
                      FontSize="16" Padding="5" BorderBrush="#AAAAAA" BorderThickness="1"
-                     Background="White" Foreground="#333333"/>
+                     Background="White" Foreground="#333333" Grid.ColumnSpan="3"/>
 
         <!-- Login Button -->
         <Button Content="Login" Grid.Row="3" Grid.Column="2" 
                 Width="100" Height="35" Margin="10,10,0,0"
                 FontSize="16" Padding="5" Background="#2196F3" Foreground="White"
                 BorderBrush="#1976D2" BorderThickness="1"
-                HorizontalAlignment="Left" Click="Button_Click"/>
+                HorizontalAlignment="Center" Click="Button_Click" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

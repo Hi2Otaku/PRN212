@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using Microsoft.EntityFrameworkCore;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,31 +22,61 @@ namespace CourseManagement
     /// </summary>
     public partial class EnrollmentManagement : Window
     {
+
+        private readonly IEnrollmentService enrollmentService;
+        private readonly ICourseService courseService;
+        private readonly ISemesterSevice semesterService;
         public EnrollmentManagement()
         {
             InitializeComponent();
+            enrollmentService = new EnrollmentService();
+            courseService = new CourseService();
+            semesterService = new SemesterSevice();
             loadWindow();
+            loadCourse();
+            loadSemester();
         }
 
         public void loadWindow()
         {
             CourseManagementDbContext db = new CourseManagementDbContext();
-            var enrollments = db.Enrollments
-                .Include(enr => enr.Course)
-                .Include(enr => enr.Student)
-                .Include(enr => enr.Semester)
-                .ToList();
+            var enrollments = enrollmentService.getEnrollment();
             List<dynamic> dynamics = new List<dynamic>();
             foreach (var enrollment in enrollments)
-            {
+            {                
                 dynamics.Add(new { EnrollmentId = enrollment.EnrollmentId, Name = enrollment.Student.Name, CourseCode = enrollment.Course.Code, SemesterCode = enrollment.Semester.Code });
             }
             dgData.ItemsSource = dynamics;
         }
 
+        public void loadCourse()
+        {
+            cboCourse.ItemsSource = null;            
+            var course = courseService.GetCourses();
+            cboCourse.ItemsSource = course;
+            cboCourse.SelectedValuePath = "Id";
+            cboCourse.DisplayMemberPath = "Code";
+        }
+
+        public void loadSemester()
+        {
+            cboSemester.ItemsSource = null;            
+            var semester = semesterService.GetSemesters();
+            cboSemester.ItemsSource = semester;
+            cboSemester.SelectedValuePath = "Id";
+            cboSemester.DisplayMemberPath = "Code";
+        }
+
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (!txtEnrollmentID.Text.Equals(""))
+            {
+                EditMark editMark = new EditMark(Int32.Parse(txtEnrollmentID.Text));
+                editMark.Show();
+            } else
+            {
+                MessageBox.Show("Enrollment not Selected!");
+            }
         }
 
         private void dgData_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -60,11 +91,7 @@ namespace CourseManagement
                 if (!id.Equals(""))
                 {
                     CourseManagementDbContext db = new CourseManagementDbContext();
-                    var enrollments = db.Enrollments
-                        .Include(enr => enr.Course)
-                        .Include(enr => enr.Student)
-                        .Include(enr => enr.Semester)
-                        .ToList();
+                    var enrollments = enrollmentService.getEnrollment();
                     foreach (Enrollment enrollment in enrollments)
                     {
                         if (enrollment.EnrollmentId == Int32.Parse(id))
@@ -77,6 +104,50 @@ namespace CourseManagement
                     }                    
                 }
             }
+        }
+
+        private void btnFilter_Click(object sender, RoutedEventArgs e)
+        {
+            string name = txtName.Text;
+            string course = "";
+            string semester = "";
+            if (cboCourse.SelectedValue != null)
+            {
+                course = cboCourse.SelectedValue.ToString();
+            }
+            
+            if (cboSemester.SelectedValue != null)
+            {
+                semester = cboSemester.SelectedValue.ToString();
+            }
+            CourseManagementDbContext db = new CourseManagementDbContext();
+            var enrollments = enrollmentService.getEnrollment();
+            List<dynamic> dynamics = new List<dynamic>();
+            foreach (var enrollment in enrollments)                
+            {
+                if (!course.Equals("") && enrollment.CourseId != Int32.Parse(course))
+                {
+                    continue;
+                }
+                if (!semester.Equals("") && enrollment.SemesterId != Int32.Parse(semester))
+                {
+                    continue;
+                }
+                if (enrollment.Student.Name.Contains(name))
+                {                    
+                    dynamics.Add(new { EnrollmentId = enrollment.EnrollmentId, Name = enrollment.Student.Name, CourseCode = enrollment.Course.Code, SemesterCode = enrollment.Semester.Code });                    
+                }                
+
+            }
+            dgData.ItemsSource = dynamics;
+        }
+
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            loadCourse();
+            loadSemester();
+            txtName.Text = "";
+            loadWindow();
         }
     }
 }

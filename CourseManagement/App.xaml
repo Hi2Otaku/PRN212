@@ -2,7 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:CourseManagement"
+<<<<<<< HEAD
              StartupUri="AddStudent.xaml">
+=======
+             StartupUri="Login.xaml">
+>>>>>>> b7aafe4b80242ad8bde83ff6c64197de0914bc1b
     <Application.Resources>
          
     </Application.Resources>
