@@ -8,75 +8,40 @@
         Title="Student" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
+        <Label Content="Students" HorizontalAlignment="Center" Height="32" VerticalAlignment="Top" Width="78"/>
+        <Label Content="Search: " HorizontalAlignment="Left" Height="33" Margin="69,14,0,0" VerticalAlignment="Top" Width="51" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtSearchName" Grid.Column="1" HorizontalAlignment="Left" Height="33" Margin="25,13,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="92" TextChanged="txtSearchName_TextChanged"/>
+        <Label Grid.Column="1" Content="Gender:" HorizontalAlignment="Left" Height="27" Margin="122,16,0,0" VerticalAlignment="Top" Width="62"/>
+        <ComboBox x:Name="cboGender" SelectionChanged="filter" Grid.Column="1" HorizontalAlignment="Left" Height="29" Margin="184,14,0,0" VerticalAlignment="Top" Width="79"/>
+        <Label Grid.Column="1" Content="Department: " HorizontalAlignment="Left" Height="27" Margin="425,16,0,0" VerticalAlignment="Top" Width="88" RenderTransformOrigin="-0.306,0.521">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.487"/>
+                    <TranslateTransform X="0.007" Y="0.603"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <ComboBox x:Name="cboDepartment" SelectionChanged="filter" Grid.Column="1" HorizontalAlignment="Left" Height="28" Margin="510,16,0,0" VerticalAlignment="Top" Width="82"/>
+        <Label Grid.Column="1" Content="Country: " HorizontalAlignment="Left" Height="25" Margin="268,14,0,0" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.073,0.669"/>
+        <ComboBox x:Name="cboCountry" SelectionChanged="filter" Grid.Column="1" HorizontalAlignment="Left" Height="28" Margin="337,18,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.028,0.524"/>
+        <DataGrid x:Name="dgData" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="355" Margin="10,69,0,0" VerticalAlignment="Top" Width="780" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="StudentID" Width="*" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="StudentName" Width="*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="BirthDate" Width="*" Binding="{Binding Birthdate}"/>
+                <DataGridTextColumn Header="Gender" Width="*" Binding="{Binding Gender}"/>
+                <DataGridTextColumn Header="Address" Width="*" Binding="{Binding Address}"/>
+                <DataGridTextColumn Header="city" Width="*" Binding="{Binding City}"/>
+                <DataGridTextColumn Header="country" Width="*" Binding="{Binding Country}"/>
+                <DataGridTextColumn Header="Department" Width="*" Binding="{Binding Department}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Column="1" Content="Clear Filter" HorizontalAlignment="Left" Height="24" Margin="609,18,0,0" VerticalAlignment="Top" Width="69" Click="Button_Click"/>
 
-        <!-- Title Label -->
-        <Label Content="Students" 
-               HorizontalAlignment="Center" 
-               VerticalAlignment="Top" 
-               FontSize="16" 
-               FontWeight="Bold" 
-               Grid.ColumnSpan="2" 
-               Margin="10"/>
-
-        <!-- Search Section -->
-        <StackPanel Orientation="Horizontal" 
-                    HorizontalAlignment="Left" 
-                    Margin="10,10,0,0" 
-                    Grid.Column="1" 
-                    VerticalAlignment="Top">
-            <Label Content="Search:" VerticalAlignment="Center" Width="60"/>
-            <TextBox x:Name="txtSearchName" 
-                     Width="150" 
-                     Height="30" 
-                     Margin="5,0,0,0" 
-                     TextChanged="txtSearchName_TextChanged"/>
-        </StackPanel>
-
-        <!-- Filters Section -->
-        <StackPanel Orientation="Horizontal" 
-                    HorizontalAlignment="Left" 
-                    Margin="10,50,0,0" 
-                    Grid.Column="1" 
-                    VerticalAlignment="Top">
-            <Label Content="Gender:" VerticalAlignment="Center" Width="60"/>
-            <ComboBox x:Name="cboGender" 
-                      Width="100" 
-                      Height="30" 
-                      Margin="5,0,0,0" 
-                      SelectionChanged="filter"/>
-
-            <Label Content="Department:" VerticalAlignment="Center" Width="100"/>
-            <ComboBox x:Name="cboDepartment" 
-                      Width="120" 
-                      Height="30" 
-                      Margin="5,0,0,0" 
-                      SelectionChanged="filter"/>
-
-            <Label Content="Country:" VerticalAlignment="Center" Width="60"/>
-            <ComboBox x:Name="cboCountry" 
-                      Width="100" 
-                      Height="30" 
-                      Margin="5,0,0,0" 
-                      SelectionChanged="filter"/>
-        </StackPanel>
-
-        <!-- DataGrid Section -->
-        <DataGrid x:Name="dgData" 
-                  Grid.ColumnSpan="2" 
-                  HorizontalAlignment="Stretch" 
-                  VerticalAlignment="Top" 
-                  Margin="10,120,10,60"/>
-
-        <!-- Clear Filter Button -->
-        <Button Content="Clear Filter" 
-                Width="100" 
-                Height="30" 
-                HorizontalAlignment="Right" 
-                Margin="10" 
-                VerticalAlignment="Bottom" 
-                Click="Button_Click"/>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,18 @@ namespace DataAccessLayer
         {
             List<Student> students = new List<Student>();
             CourseManagementDbContext context = new CourseManagementDbContext();
-            students = context.Students.ToList();
+            students = context.Students.Include(s => s.DepartmentNavigation)
+            .Select(s => new Student
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Birthdate = s.Birthdate,
+                Gender = s.Gender,
+                Address = s.Address,
+                City = s.City,
+                Country = s.Country,
+                Department = s.DepartmentNavigation.Name
+            }).ToList();
             return students;
         }
     }

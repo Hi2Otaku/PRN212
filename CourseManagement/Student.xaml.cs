@@ -73,6 +73,11 @@ namespace CourseManagement
 
         }
 
+        public void loadData()
+        {
+            dgData.ItemsSource = null;
+        }
+
         public void applyFilter()
         {
             string searchName = txtSearchName.Text.ToLower();
@@ -81,12 +86,13 @@ namespace CourseManagement
             string department = cboDepartment.SelectedItem?.ToString();
             StudentDAO dao = new StudentDAO();
             var students = dao.GetStudent(); 
-            var filteredData = students.Where(item =>
+            var filteredData =  students.Where(item =>
                 (string.IsNullOrEmpty(searchName) || item.Name.ToLower().Contains(searchName)) &&
                 (string.IsNullOrEmpty(gender) || item.Gender == gender) &&
                 (string.IsNullOrEmpty(department) || item.Department == department) &&
                 (string.IsNullOrEmpty(country) || item.Country == country)
             ).ToList();
+
             dgData.ItemsSource = filteredData;
         }
 
