@@ -9,12 +9,13 @@ namespace DataAccessLayer
 {
     public class AccountMemberDAO
     {
-        private static AccountMember GetAccountMemberByName(String name)
+        public static AccountMember CheckExist(string username,string password)
         {
-            AccountMember accountMember = new AccountMember();
             CourseManagementDbContext db = new CourseManagementDbContext();
-            accountMember = db.AccountMembers.Find(name);
+            AccountMember accountMember = db.AccountMembers.FirstOrDefault(u => u.Username == username && u.Password == password);
             return accountMember;
         }
+        
+       
     }
 }

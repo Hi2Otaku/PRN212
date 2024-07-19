@@ -25,6 +25,7 @@ namespace CourseManagement.CoursesManage
         {
             InitializeComponent();
             NewCourse = new Course();
+            loadAssessment();
         }
 
         public void loadAssessment()
@@ -51,7 +52,14 @@ namespace CourseManagement.CoursesManage
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            
+            /*NewCourse.Code = txtCourseCode.Text;
+            NewCourse.Title = txtCourseTitle.Text;
+            if (byte.TryParse(txtCredits.Text, out byte credits))
+            {
+                NewCourse.Credits = credits;
+            }
+            DialogResult = true;
+            Close();*/
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -78,12 +86,17 @@ namespace CourseManagement.CoursesManage
                         "Final Exam",
                         "Class Participation"
                 };
-                dgData.ItemsSource = listType;           
+                dgData.ItemsSource = listType;
+           
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message, "Can not load Data!");
             }
+        }
+        private void Button_AddAssess(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

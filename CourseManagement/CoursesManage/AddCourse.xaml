@@ -40,7 +40,7 @@
         <Label Content="Name: " HorizontalAlignment="Left" Height="26" Margin="427,226,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.379,-0.93"/>
         <TextBox HorizontalAlignment="Left" Height="24" Margin="477,227,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="50"/>
         <Button Content="Add Course" HorizontalAlignment="Left" Height="31" Margin="96,283,0,0" VerticalAlignment="Top" Width="66" RenderTransformOrigin="-4.73,1.55"/>
-        <Button Content="Add Assessments" HorizontalAlignment="Left" Height="31" Margin="506,278,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button Content="Add Assessments" HorizontalAlignment="Left" Height="31" Margin="506,278,0,0" VerticalAlignment="Top" Width="100" Click="Button_AddAssess"/>
 
     </Grid>
 </Window>
