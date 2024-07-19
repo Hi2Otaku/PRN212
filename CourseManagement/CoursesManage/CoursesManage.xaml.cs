@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using DataAccessLayer;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,20 +24,25 @@ namespace CourseManagement.CoursesManage
     public partial class CoursesManage : Window
     {
         private readonly CourseManagementDbContext _context;
-        private readonly CourseDAO _courseDAO;
+        private readonly ICourseService courseService; 
         public CoursesManage()
         {
             InitializeComponent();
             _context = new CourseManagementDbContext();
-            _courseDAO= new CourseDAO(_context);
+            courseService = new CourseService();
             LoadComboBoxes();
             LoadCourses();
         }
         private void LoadComboBoxes()
         {
+<<<<<<< HEAD
             var course = _courseDAO.GetCourses();
+=======
+            var course = courseService.GetCourses();
+            var codes = course.Select(c => c.Code).Distinct().ToList();
+>>>>>>> d27ef21b766e89704dfec946bef1eb2ad0da1ff2
             var titles = course.Select(t => t.Title).Distinct().ToList();
-            var credits = _courseDAO.GetCredits().OrderBy(c => c).ToList();
+            var credits = courseService.GetCredits().OrderBy(c => c).ToList();
 
             cbFilterTitle.ItemsSource = titles;
             cboFilterCredits.ItemsSource = credits;
@@ -44,17 +50,28 @@ namespace CourseManagement.CoursesManage
 
         private void LoadCourses()
         {
+<<<<<<< HEAD
             dgCourses.ItemsSource = _courseDAO.GetCourses();
             LoadComboBoxes();
+=======
+            dgCourses.ItemsSource = courseService.GetCourses();
+            LoadComboBoxes ();
+>>>>>>> d27ef21b766e89704dfec946bef1eb2ad0da1ff2
         }
         private void btnAddCourse_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new AddCourse();
             if (dialog.ShowDialog() == true)
             {
+<<<<<<< HEAD
                 _courseDAO.CreateCourse(dialog.NewCourse);
                 dgCourses.ItemsSource = _courseDAO.GetCourses();
                 LoadComboBoxes();
+=======
+                courseService.CreateCourse(dialog.NewCourse);
+                dgCourses.ItemsSource = courseService.GetCourses();
+                LoadComboBoxes();    
+>>>>>>> d27ef21b766e89704dfec946bef1eb2ad0da1ff2
             }
 
         }
@@ -66,8 +83,8 @@ namespace CourseManagement.CoursesManage
                 var dialog = new EditCourse(selectedCourse);
                 if(dialog.ShowDialog() == true)
                 {
-                    _courseDAO.UpdateCourse(dialog.ExistingCourse);
-                    dgCourses.ItemsSource = _courseDAO.GetCourses();
+                    courseService.UpdateCourse(dialog.ExistingCourse);
+                    dgCourses.ItemsSource = courseService.GetCourses();
                     LoadComboBoxes();
                 }
             }
@@ -84,9 +101,15 @@ namespace CourseManagement.CoursesManage
                 var result = MessageBox.Show($"Are you sure you want to delete the course '{selectedCourse.Title}'?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (result == MessageBoxResult.Yes)
                 {
+<<<<<<< HEAD
                     _courseDAO.DeleteCourse(selectedCourse);
                     dgCourses.ItemsSource = _courseDAO.GetCourses();
                     LoadComboBoxes();
+=======
+                    courseService.DeleteCourse(selectedCourse);
+                    dgCourses.ItemsSource = courseService.GetCourses();
+                    LoadComboBoxes() ;
+>>>>>>> d27ef21b766e89704dfec946bef1eb2ad0da1ff2
                 }
             }
               else
@@ -99,8 +122,14 @@ namespace CourseManagement.CoursesManage
  
             string titleFilter = cbFilterTitle.SelectedItem?.ToString().ToLower();
             int? creditFilter = cboFilterCredits.SelectedItem as int?;
+<<<<<<< HEAD
             var filteredCourses = _courseDAO.GetCourses()
                 .Where(c => (string.IsNullOrEmpty(titleFilter) || c.Title.ToLower().Contains(titleFilter)) &&
+=======
+            var filteredCourses = courseService.GetCourses()
+                .Where(c => (string.IsNullOrEmpty(codeFilter) || c.Code.ToLower().Contains(codeFilter)) &&
+                            (string.IsNullOrEmpty(titleFilter) || c.Title.ToLower().Contains(titleFilter)) &&
+>>>>>>> d27ef21b766e89704dfec946bef1eb2ad0da1ff2
                             (!creditFilter.HasValue || c.Credits == creditFilter))
                 .ToList();
 
@@ -111,11 +140,11 @@ namespace CourseManagement.CoursesManage
         {
             cbFilterTitle.SelectedItem = null;
             cboFilterCredits.SelectedItem = null;
-            dgCourses.ItemsSource = _courseDAO.GetCourses();
+            dgCourses.ItemsSource = courseService.GetCourses();
         }
         private void btnCourses_Click(object sender, RoutedEventArgs e)
         {
-            dgCourses.ItemsSource = _courseDAO.GetCourses();
+            dgCourses.ItemsSource = courseService.GetCourses();
             LoadComboBoxes();
         }
 
