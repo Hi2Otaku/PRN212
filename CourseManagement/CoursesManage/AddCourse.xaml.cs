@@ -27,6 +27,28 @@ namespace CourseManagement.CoursesManage
             NewCourse = new Course();
         }
 
+        public void loadAssessment()
+        {
+            try
+            {
+                List<string> listType = new List<string>()
+                {
+                        "lab",
+                        "quiz",
+                        "assignment",
+                        "Practice Exam",
+                        "Final Exam",
+                        "Class Participation"
+                };
+                dgData.ItemsSource = listType;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can not load Data!");
+            }
+        }
+
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             NewCourse.Code = txtCourseCode.Text;
@@ -43,6 +65,33 @@ namespace CourseManagement.CoursesManage
         {
             DialogResult = false;
             Close();
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void dgData_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                List<string> listType = new List<string>()
+                {
+                        "lab",
+                        "quiz",
+                        "assignment",
+                        "Practice Exam",
+                        "Final Exam",
+                        "Class Participation"
+                };
+                dgData.ItemsSource. = listType;
+           
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can not load Data!");
+            }
         }
     }
 }
