@@ -102,7 +102,32 @@ namespace CourseManagement.SemeterManagement
 
         private void txtYear_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            
+            string input = txtYear.Text;
+
+            if (int.TryParse(input, out int number) && number > 0)
+            {
+                txtYear.Background = System.Windows.Media.Brushes.White;
+            }
+            else
+            {
+                txtYear.Background = System.Windows.Media.Brushes.LightPink;
+            }
+        }
+
+        private void txtStartDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (txtEndDate.SelectedDate.HasValue)
+            {
+                txtStartDate.DisplayDateEnd = txtEndDate.SelectedDate.Value;
+            }
+        }
+
+        private void txtEndDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (txtStartDate.SelectedDate.HasValue)
+            {
+                txtEndDate.DisplayDateStart = txtStartDate.SelectedDate.Value;
+            }
         }
     }
 }
