@@ -1,11 +1,11 @@
-﻿<Window x:Class="CourseManagement.Student"
+﻿<Window x:Class="CourseManagement.StudentManagement"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CourseManagement"
         mc:Ignorable="d"
-        Title="Student" Height="450" Width="874">
+        Title="StudentManagement" Height="450" Width="874">
     <Grid Margin="10,0,10,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="19*"/>
@@ -41,7 +41,8 @@
                 <DataGridTextColumn Header="Department" Width="*" Binding="{Binding Department}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Column="1" Content="Clear Filter" HorizontalAlignment="Left" Height="24" Margin="609,18,0,0" VerticalAlignment="Top" Width="69" Click="Button_Click"/> 
+        <Button Grid.Column="1" Content="Clear Filter" HorizontalAlignment="Left" Height="24" Margin="609,18,0,0" VerticalAlignment="Top" Width="69" Click="Button_Click"/>
+        <Button Content="Add Student" HorizontalAlignment="Left" Height="25" Margin="0,39,0,0" VerticalAlignment="Top" Width="74" Click="Button_Click_1"/>
 
     </Grid>
 </Window>

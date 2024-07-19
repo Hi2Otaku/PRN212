@@ -25,6 +25,8 @@ namespace CourseManagement
         public AddStudent()
         {
             InitializeComponent();
+            loadGender();
+            loadDepartment();
         }
 
         public void loadDepartment()
@@ -70,14 +72,31 @@ namespace CourseManagement
                 string country = txtCountry.Text;
                 string department = cboDepartment.SelectedItem?.ToString();
 
-                Student student = new Student();
-                student.Name = name;
-                student
+                 
+
+                CourseManagementDbContext db = new CourseManagementDbContext();
+                string departmentCode = db.Departments
+                                      .Where(d => d.Name == department)
+                                      .Select(d => d.Code)
+                                      .FirstOrDefault();
+                var student = db.Students.ToList();
+                Student studentss = new Student();
+                studentss.Name = name;
+                studentss.Gender = gender;
+                studentss.Address = address;
+                studentss.Country = country;
+                studentss.Department = departmentCode;
+                studentss.City = city;
+                studentss.Birthdate = birthDate;
+                
 
                 StudentDAO studentDAO = new StudentDAO();
-                studentDAO.addStudent(student);
+                studentDAO.addStudent(studentss);
 
                 MessageBox.Show("Student added successfully.");
+                StudentManagement studentManagement = new StudentManagement();
+                studentManagement.Show();
+                this.Close();
             }
         }
 
@@ -152,4 +171,4 @@ namespace CourseManagement
         }
     }
 }
-}
+

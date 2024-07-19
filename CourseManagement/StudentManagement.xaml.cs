@@ -20,9 +20,9 @@ namespace CourseManagement
     /// <summary>
     /// Interaction logic for Student.xaml
     /// </summary>
-    public partial class Student : Window
+    public partial class StudentManagement : Window
     {
-        public Student()
+        public StudentManagement()
         {
             InitializeComponent();
             applyFilter();
@@ -105,7 +105,7 @@ namespace CourseManagement
             applyFilter();
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             AddStudent addStudent = new AddStudent();
             addStudent.Show();
