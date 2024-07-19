@@ -35,7 +35,7 @@ namespace Services
 
         public List<Semester> Load_Semester(int year, DateOnly? startDate, DateOnly? endDate)
         {
-            //ValidateDate(startDate, endDate);
+            ValidateDate(startDate, endDate);
             return _irepository.Load_Semester(year, startDate, endDate);
 
         }

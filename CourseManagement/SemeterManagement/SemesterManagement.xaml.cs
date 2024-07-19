@@ -23,7 +23,7 @@ namespace CourseManagement.SemeterManagement
     public partial class SemesterManagement : Window
     {
         private readonly ISemesterSevice _isemester;
-
+        private bool _isUpdating = false;
         public SemesterManagement()
         {
             InitializeComponent();
@@ -161,6 +161,8 @@ namespace CourseManagement.SemeterManagement
 
         private void StartDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_isUpdating) return;
+            Filter(sender, e);
             var selectYear = YearComboBox.SelectedItem;
             int year = -1;
             if (selectYear != null && int.TryParse(selectYear.ToString(), out year)) ;
@@ -168,31 +170,39 @@ namespace CourseManagement.SemeterManagement
             if (EndDate.SelectedDate.HasValue)
             {
                 StartDate.DisplayDateEnd = EndDate.SelectedDate.Value;
+                EndDate.DisplayDateStart = StartDate.SelectedDate.Value;
             }
             else
             {
                 StartDate.DisplayDateEnd = _isemester.GetMaxDate(year).Value.ToDateTime(TimeOnly.MinValue);
             }
-            Filter(sender, e);
+
         }
 
         private void EndDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
+        {   if(_isUpdating) return;
+            Filter(sender, e);
             var selectYear = YearComboBox.SelectedItem;
             int year = -1;
-            if (selectYear != null && int.TryParse(selectYear.ToString(), out year)) ;
-            EndDate.DisplayDateStart = _isemester.GetMixDate(year).Value.ToDateTime(TimeOnly.MinValue);
-            if (StartDate.SelectedDate.HasValue)
+            try
             {
-                EndDate.DisplayDateEnd = StartDate.SelectedDate.Value;
-            }
-            else
-            {
+                if (selectYear != null && int.TryParse(selectYear.ToString(), out year)) ;
+
+                if (StartDate.SelectedDate.HasValue)
+                {
+                    StartDate.DisplayDateEnd = EndDate.SelectedDate.Value;
+                    EndDate.DisplayDateStart = StartDate.SelectedDate.Value;
+                }
+                else
+                {
+                    EndDate.DisplayDateStart = _isemester.GetMixDate(year).Value.ToDateTime(TimeOnly.MinValue);
+                }
                 EndDate.DisplayDateEnd = _isemester.GetMaxDate(year).Value.ToDateTime(TimeOnly.MinValue);
             }
+            catch (Exception ex)
+            {
 
-            Filter(sender, e);
-
+            }
         }
 
         private void YearComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -202,9 +212,40 @@ namespace CourseManagement.SemeterManagement
             if (selectYear != null && int.TryParse(selectYear.ToString(), out year)) ;
             DateOnly? startDate = _isemester.GetMixDate(year);
             DateOnly? endDate = _isemester.GetMaxDate(year);
+            _isUpdating = true;
             StartDate.SelectedDate = startDate.Value.ToDateTime(TimeOnly.MinValue);
             EndDate.SelectedDate = endDate.Value.ToDateTime(TimeOnly.MinValue);
-            Filter(sender, e);
+            _isUpdating = false;
+            Load_Semester(year, startDate, endDate);
+        }
+
+        private void btnAddCourse_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnCourses_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnStudents_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnDepartments_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnEnrollment_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnSemesters_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

@@ -18,6 +18,16 @@
             <RowDefinition />
             <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical">
+            <Button Name="btnHome" Content="Home" Click="btnAddCourse_Click" Margin="5" Height="40"/>
+            <Button Name="btnCourses" Content="Courses" Click="btnCourses_Click" Margin="5" Height="40"/>
+            <Button Name="btnStudents" Content="Students" Click="btnStudents_Click" Margin="5" Height="40"/>
+            <Button Name="btnDepartments" Content="Departments" Click="btnDepartments_Click" Margin="5" Height="40"/>
+            <Button Name="btnSemesters" Content="Semesters" Click="btnSemesters_Click" Margin="5" Height="40"/>
+            <Button Name="btnEnrollment" Content="Enrollment" Click="btnEnrollment_Click" Margin="5" Height="40"/>
+
+        </StackPanel>
+
         <StackPanel Grid.Column="1" Grid.Row="0">
             <Label Content="Semester Management" FontSize="30" Margin="10" FontWeight="Bold" Foreground="LightSalmon" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </StackPanel>
