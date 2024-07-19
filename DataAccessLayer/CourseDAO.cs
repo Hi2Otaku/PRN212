@@ -9,13 +9,13 @@ namespace DataAccessLayer
 {
     public class CourseDAO
     {
-        private static List<Course> GetCourses()
+       public static List<Course> GetCourses()
         {
             List<Course> courses = new List<Course>();
             CourseManagementDbContext db = new CourseManagementDbContext();
             courses = db.Courses.ToList();
-            return courses;
-        }
+            return courses;            
+       }
 
         private static void DeleteCourse(Course course)
         {

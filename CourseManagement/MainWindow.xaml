@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Button x:Name="btdepart" Content="Department Manage" HorizontalAlignment="Left" Height="58" Margin="338,147,0,0" VerticalAlignment="Top" Width="152" Click="Button_Click"/>
+        <Frame x:Name="frmain" Content="Frame" HorizontalAlignment="Left" Height="156" Margin="309,91,0,0" VerticalAlignment="Top" Width="296"/>
 
     </Grid>
 </Window>
