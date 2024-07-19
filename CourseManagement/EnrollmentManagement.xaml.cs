@@ -25,6 +25,8 @@ namespace CourseManagement
         {
             InitializeComponent();
             loadWindow();
+            loadCourse();
+            loadSemester();
         }
 
         public void loadWindow()
@@ -33,19 +35,46 @@ namespace CourseManagement
             var enrollments = db.Enrollments
                 .Include(enr => enr.Course)
                 .Include(enr => enr.Student)
-                .Include(enr => enr.Semester)
+                .Include(enr => enr.Semester)                
                 .ToList();
             List<dynamic> dynamics = new List<dynamic>();
             foreach (var enrollment in enrollments)
-            {
+            {                
                 dynamics.Add(new { EnrollmentId = enrollment.EnrollmentId, Name = enrollment.Student.Name, CourseCode = enrollment.Course.Code, SemesterCode = enrollment.Semester.Code });
             }
             dgData.ItemsSource = dynamics;
         }
 
+        public void loadCourse()
+        {
+            cboCourse.ItemsSource = null;
+            CourseManagementDbContext db = new CourseManagementDbContext();
+            var course = db.Courses.ToList();
+            cboCourse.ItemsSource = course;
+            cboCourse.SelectedValuePath = "Id";
+            cboCourse.DisplayMemberPath = "Code";
+        }
+
+        public void loadSemester()
+        {
+            cboSemester.ItemsSource = null;
+            CourseManagementDbContext db = new CourseManagementDbContext();
+            var semester = db.Semesters.ToList();
+            cboSemester.ItemsSource = semester;
+            cboSemester.SelectedValuePath = "Id";
+            cboSemester.DisplayMemberPath = "Code";
+        }
+
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (!txtEnrollmentID.Text.Equals(""))
+            {
+                EditMark editMark = new EditMark(Int32.Parse(txtEnrollmentID.Text));
+                editMark.Show();
+            } else
+            {
+                MessageBox.Show("Enrollment not Selected!");
+            }
         }
 
         private void dgData_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -77,6 +106,54 @@ namespace CourseManagement
                     }                    
                 }
             }
+        }
+
+        private void btnFilter_Click(object sender, RoutedEventArgs e)
+        {
+            string name = txtName.Text;
+            string course = "";
+            string semester = "";
+            if (cboCourse.SelectedValue != null)
+            {
+                course = cboCourse.SelectedValue.ToString();
+            }
+            
+            if (cboSemester.SelectedValue != null)
+            {
+                semester = cboSemester.SelectedValue.ToString();
+            }
+            CourseManagementDbContext db = new CourseManagementDbContext();
+            var enrollments = db.Enrollments
+                .Include(enr => enr.Course)
+                .Include(enr => enr.Student)
+                .Include(enr => enr.Semester)                
+                .ToList();
+            List<dynamic> dynamics = new List<dynamic>();
+            foreach (var enrollment in enrollments)                
+            {
+                if (!course.Equals("") && enrollment.CourseId != Int32.Parse(course))
+                {
+                    continue;
+                }
+                if (!semester.Equals("") && enrollment.SemesterId != Int32.Parse(semester))
+                {
+                    continue;
+                }
+                if (enrollment.Student.Name.Contains(name))
+                {                    
+                    dynamics.Add(new { EnrollmentId = enrollment.EnrollmentId, Name = enrollment.Student.Name, CourseCode = enrollment.Course.Code, SemesterCode = enrollment.Semester.Code });                    
+                }                
+
+            }
+            dgData.ItemsSource = dynamics;
+        }
+
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            loadCourse();
+            loadSemester();
+            txtName.Text = "";
+            loadWindow();
         }
     }
 }
