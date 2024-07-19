@@ -5,12 +5,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DataAccessLayer
 {
     public class SemestersDAO
     {
-        public List<Semester> Load_Semester(string code, int year, DateOnly startDate, DateOnly endDate)
+        public int GetLastId()
+        {
+            int id = -1;
+            using (var _dbcontext = new CourseManagementDbContext())
+            {
+                return _dbcontext.Semesters.Max(s => s.Id) + 1;
+            }
+        }
+        public List<int?> Load_Year()
+        {
+            using (var _dbcontext = new CourseManagementDbContext())
+            {
+                return _dbcontext.Semesters
+                    .Select(x => x.Year)
+                    .Distinct()
+                    .ToList();
+            }
+        }
+        public DateOnly? GetMinDate(int year)
+        {
+            using (var _dbcontext = new CourseManagementDbContext())
+            {
+                IQueryable<Semester> query = _dbcontext.Semesters;
+                if(year != -1)
+                {
+                  query =  query.Where(s => s.Year == year);
+                }
+                return  query.Min(s => s.BeginDate);
+            }
+        }
+        public DateOnly? GetMaxDate(int year)
+        {
+            using (var _dbcontext = new CourseManagementDbContext())
+            {
+                IQueryable<Semester> query = _dbcontext.Semesters;
+                if (year != -1)
+                {
+                   query = query.Where(s => s.Year == year);
+                }
+                return query.Max(s => s.EndDate);
+            }
+        }
+        
+
+        public List<Semester> Load_Semester(int year, DateOnly? startDate, DateOnly? endDate)
         {
             List<Semester> semesters = new List<Semester>();
             try
@@ -18,10 +63,11 @@ namespace DataAccessLayer
                 using (var _dbcontext = new CourseManagementDbContext())
                 {
                     IQueryable<Semester> query = _dbcontext.Semesters;
-                    if (!code.IsNullOrEmpty()) { query = query.Where(s => s.Code == code); }
                     if (year != -1) { query = query.Where(s => s.Year == year); }
-                    if( startDate != null) { query = query.Where(s => s.BeginDate == startDate); }
-                    if(endDate != null) { query = query.Where(s => s.EndDate == endDate); }
+                    if (startDate.HasValue && endDate.HasValue)
+                    {
+                        query = query.Where(s => s.BeginDate >= startDate.Value && s.EndDate <= endDate.Value);
+                    }
                     semesters = query.ToList();
                 }
             }
@@ -30,6 +76,50 @@ namespace DataAccessLayer
 
             }
             return semesters;
+        }
+        public void Add_Semester(Semester semester)
+        {
+            try
+            {
+                using (var _dbcontext = new CourseManagementDbContext())
+                {
+                    _dbcontext.Semesters.Add(semester);
+                    _dbcontext.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error occurred while adding semester: " + ex.Message);
+            }
+        }
+
+        public void Update_Semester(Semester semester)
+        {
+            try
+            {
+                using (var _dbcontext = new CourseManagementDbContext())
+                {
+                    _dbcontext.Update(semester);
+                    _dbcontext.SaveChanges();
+                }
+            }
+            catch (Exception ex) { }
+        }
+        public Semester? GetSemesterById(int id)
+        {
+            Semester semester = null;
+            try
+            {
+                using (var _dbcontext = new CourseManagementDbContext())
+                {
+                    semester = _dbcontext.Find<Semester>(id);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return semester;
         }
     }
 }
