@@ -1,0 +1,43 @@
+﻿<Window x:Class="CourseManagement.EditMark"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CourseManagement"
+        mc:Ignorable="d"
+        Title="EditMark" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="lblTitle" Content="" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8"/>
+
+        <DataGrid x:Name="dgData" AutoGenerateColumns="False" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Type" Width="*" Binding="{Binding Type}"/>
+                <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Number" Width="*" Binding="{Binding Number}"/>
+                <DataGridTextColumn Header="Percent" Width="*" Binding="{Binding Percent}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>
