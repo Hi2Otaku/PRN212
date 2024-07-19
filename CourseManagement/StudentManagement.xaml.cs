@@ -104,5 +104,12 @@ namespace CourseManagement
             cboCountry.SelectedIndex = -1;
             applyFilter();
         }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            AddStudent addStudent = new AddStudent();
+            addStudent.Show();
+            this.Hide();
+        }
     }
 }

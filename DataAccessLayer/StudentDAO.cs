@@ -28,5 +28,12 @@ namespace DataAccessLayer
             }).ToList();
             return students;
         }
+
+        public void addStudent(Student student)
+        {
+            CourseManagementDbContext db = new CourseManagementDbContext();
+            db.Students.Add(student);
+            db.SaveChanges();
+        }
     }
 }
