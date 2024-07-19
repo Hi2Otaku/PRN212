@@ -9,7 +9,7 @@ namespace DataAccessLayer
 {
     public class AccountMemberDAO
     {
-        public static AccountMember CheckExist(string username,string password)
+        public static   AccountMember CheckExist(string username,string password)
         {
             CourseManagementDbContext db = new CourseManagementDbContext();
             AccountMember accountMember = db.AccountMembers.FirstOrDefault(u => u.Username == username && u.Password == password);

@@ -28,7 +28,8 @@ namespace Repositories
         
 
         public Semester? GetSemesterById(int id) => _dbcontext.GetSemesterById(id);
-       
+
+        public List<Semester> GetSemesters() => SemestersDAO.GetSemesters();
 
         public List<Semester> Load_Semester(int year, DateOnly? startDate, DateOnly? endDate)
         {
@@ -39,6 +40,8 @@ namespace Repositories
        
 
         public void Update_Semester(Semester semester) => _dbcontext.Update_Semester(semester);
+
+
    
     }
 }

@@ -32,6 +32,10 @@ namespace Services
 
         public Semester? GetSemesterById(int semesterId) => _irepository.GetSemesterById(semesterId);
 
+        public List<Semester> GetSemesters()
+        {
+            return _irepository.GetSemesters();
+        }
 
         public List<Semester> Load_Semester(int year, DateOnly? startDate, DateOnly? endDate)
         {

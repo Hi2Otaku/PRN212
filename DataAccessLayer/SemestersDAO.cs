@@ -121,5 +121,13 @@ namespace DataAccessLayer
             }
             return semester;
         }
+
+        public static List<Semester> GetSemesters()
+        {
+            List<Semester> semesters = new List<Semester>();
+            CourseManagementDbContext context = new CourseManagementDbContext();
+            semesters = context.Semesters.ToList();
+            return semesters;
+        }
     }
 }

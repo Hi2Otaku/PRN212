@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using Microsoft.EntityFrameworkCore;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +23,11 @@ namespace CourseManagement
     public partial class EditMark : Window
     {
         public int enrollmentID;
+        private readonly IMarkService markService;
         public EditMark()
         {
             InitializeComponent();
+            markService = new MarkService();
         }
 
         public EditMark(int enrollID)
@@ -32,18 +35,14 @@ namespace CourseManagement
             InitializeComponent();
             enrollmentID = enrollID;
             lblTitle.Content = $"Edit Mark on Enrollment {enrollmentID}";
+            markService = new MarkService();
             loadWindow();
         }
 
         public void loadWindow()
         {
-            dgData.ItemsSource = null;
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            var marks = db.Marks
-                .Include(m => m.Assessment)
-                .Include(m => m.Enrollment)
-                .Where(m => m.EnrollmentId == enrollmentID)
-                .ToList();
+            dgData.ItemsSource = null;            
+            var marks = markService.getMark(enrollmentID);
             dgData.ItemsSource = marks;
         }
 
@@ -57,13 +56,8 @@ namespace CourseManagement
 
                 string id = ((TextBlock)cell.Content).Text;
                 if (!id.Equals(""))
-                {
-                    CourseManagementDbContext db = new CourseManagementDbContext();
-                    var marks = db.Marks
-                        .Include(m => m.Assessment)
-                        .Include(m => m.Enrollment)
-                        .Where(m => m.EnrollmentId == enrollmentID)
-                        .ToList();                    
+                {                    
+                    var marks = markService.getMark(enrollmentID);                    
                     foreach (var mark in marks)
                     {
                         if (mark.Assessment.Name.Equals(id))
@@ -88,12 +82,7 @@ namespace CourseManagement
                         MessageBox.Show("Invalid Input!");
                         return;
                     }
-                    CourseManagementDbContext db = new CourseManagementDbContext();
-                    var marks = db.Marks
-                        .Include(m => m.Assessment)
-                        .Include(m => m.Enrollment)
-                        .Where(m => m.EnrollmentId == enrollmentID)
-                        .ToList();
+                    var marks = markService.getMark(enrollmentID);
                     int assessmentId = 0;
                     foreach (var markz in marks)
                     {
@@ -106,9 +95,7 @@ namespace CourseManagement
                     mark.Mark1 = assessMark;
                     mark.EnrollmentId = enrollmentID;
                     mark.AssessmentId = assessmentId;
-                    CourseManagementDbContext db2 = new CourseManagementDbContext();
-                    db2.Marks.Update(mark);
-                    db2.SaveChanges();                    
+                    markService.updateMark(mark);                             
                 } catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);

@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using Microsoft.EntityFrameworkCore;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,16 @@ namespace CourseManagement
     /// </summary>
     public partial class EnrollmentManagement : Window
     {
+
+        private readonly IEnrollmentService enrollmentService;
+        private readonly ICourseService courseService;
+        private readonly ISemesterSevice semesterService;
         public EnrollmentManagement()
         {
             InitializeComponent();
+            enrollmentService = new EnrollmentService();
+            courseService = new CourseService();
+            semesterService = new SemesterSevice();
             loadWindow();
             loadCourse();
             loadSemester();
@@ -32,11 +40,7 @@ namespace CourseManagement
         public void loadWindow()
         {
             CourseManagementDbContext db = new CourseManagementDbContext();
-            var enrollments = db.Enrollments
-                .Include(enr => enr.Course)
-                .Include(enr => enr.Student)
-                .Include(enr => enr.Semester)                
-                .ToList();
+            var enrollments = enrollmentService.getEnrollment();
             List<dynamic> dynamics = new List<dynamic>();
             foreach (var enrollment in enrollments)
             {                
@@ -47,9 +51,8 @@ namespace CourseManagement
 
         public void loadCourse()
         {
-            cboCourse.ItemsSource = null;
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            var course = db.Courses.ToList();
+            cboCourse.ItemsSource = null;            
+            var course = courseService.GetCourses();
             cboCourse.ItemsSource = course;
             cboCourse.SelectedValuePath = "Id";
             cboCourse.DisplayMemberPath = "Code";
@@ -57,9 +60,8 @@ namespace CourseManagement
 
         public void loadSemester()
         {
-            cboSemester.ItemsSource = null;
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            var semester = db.Semesters.ToList();
+            cboSemester.ItemsSource = null;            
+            var semester = semesterService.GetSemesters();
             cboSemester.ItemsSource = semester;
             cboSemester.SelectedValuePath = "Id";
             cboSemester.DisplayMemberPath = "Code";
@@ -89,11 +91,7 @@ namespace CourseManagement
                 if (!id.Equals(""))
                 {
                     CourseManagementDbContext db = new CourseManagementDbContext();
-                    var enrollments = db.Enrollments
-                        .Include(enr => enr.Course)
-                        .Include(enr => enr.Student)
-                        .Include(enr => enr.Semester)
-                        .ToList();
+                    var enrollments = enrollmentService.getEnrollment();
                     foreach (Enrollment enrollment in enrollments)
                     {
                         if (enrollment.EnrollmentId == Int32.Parse(id))
@@ -123,11 +121,7 @@ namespace CourseManagement
                 semester = cboSemester.SelectedValue.ToString();
             }
             CourseManagementDbContext db = new CourseManagementDbContext();
-            var enrollments = db.Enrollments
-                .Include(enr => enr.Course)
-                .Include(enr => enr.Student)
-                .Include(enr => enr.Semester)                
-                .ToList();
+            var enrollments = enrollmentService.getEnrollment();
             List<dynamic> dynamics = new List<dynamic>();
             foreach (var enrollment in enrollments)                
             {

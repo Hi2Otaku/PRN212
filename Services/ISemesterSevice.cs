@@ -19,5 +19,6 @@ namespace Services
         public DateOnly? GetMixDate(int year);
         public DateOnly? GetMaxDate(int year);
         public int GetLastId();
+        List<Semester> GetSemesters();
     }
 }
