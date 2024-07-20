@@ -22,7 +22,7 @@
             </StackPanel>
            
             <Label Content="Code"/>
-            <TextBox x:Name="txtCode" Height="25"/>
+            <TextBox x:Name="txtCode" Height="25" SelectionChanged="txtCode_SelectionChanged"/>
             <Label Content="Year"/>
             <TextBox x:Name="txtYear" SelectionChanged="txtYear_SelectionChanged" Height="25"/>
             <Label Content="Begin Date"/>

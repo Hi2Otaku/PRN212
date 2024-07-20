@@ -78,9 +78,12 @@ namespace CourseManagement
                 string departmentCode = db.Departments
                                       .Where(d => d.Name == department)
                                       .Select(d => d.Code)
-                                      .FirstOrDefault();
+                                      .FirstOrDefault();                
+
                 var student = db.Students.ToList();
-                Student studentss = new Student();
+                Student studentss = new Student();                
+
+                studentss.Id = db.Students.Max(std => std.Id) + 1;
                 studentss.Name = name;
                 studentss.Gender = gender;
                 studentss.Address = address;

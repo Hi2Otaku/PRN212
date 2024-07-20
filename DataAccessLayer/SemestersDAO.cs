@@ -121,6 +121,13 @@ namespace DataAccessLayer
             }
             return semester;
         }
+        public static bool GetSemesterByCode(string code)
+        {
+            using (var _dbcontext = new CourseManagementDbContext())
+            {
+                return _dbcontext.Semesters.Any(s => s.Code == code);
+            }
+        }
 
         public static List<Semester> GetSemesters()
         {

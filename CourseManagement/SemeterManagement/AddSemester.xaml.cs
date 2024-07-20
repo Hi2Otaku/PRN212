@@ -124,6 +124,15 @@ namespace CourseManagement.SemeterManagement
                 txtEndDate.DisplayDateStart = txtStartDate.SelectedDate.Value;
             }
         }
+
+        private void txtCode_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (txtCode.Text != null)
+            {
+                bool? isSemesterExist = _isemester.GetSemesterByCode(txtCode.Text);
+                txtCode.Background = isSemesterExist == false ? System.Windows.Media.Brushes.White : System.Windows.Media.Brushes.LightPink;
+            }
+        }
     }
 
 }

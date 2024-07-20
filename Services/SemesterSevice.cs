@@ -29,6 +29,10 @@ namespace Services
 
         public DateOnly? GetMixDate(int year) => _irepository.GetMinDate(year);
 
+        public bool GetSemesterByCode(string code)
+        {
+            return _irepository.GetSemesterByCode(code);
+        }
 
         public Semester? GetSemesterById(int semesterId) => _irepository.GetSemesterById(semesterId);
 

@@ -25,7 +25,8 @@ namespace Repositories
        
 
         public DateOnly? GetMinDate(int year) => _dbcontext.GetMinDate(year);
-        
+
+        public bool GetSemesterByCode(string code) => SemestersDAO.GetSemesterByCode(code);        
 
         public Semester? GetSemesterById(int id) => _dbcontext.GetSemesterById(id);
 

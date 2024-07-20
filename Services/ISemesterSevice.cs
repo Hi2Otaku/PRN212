@@ -20,5 +20,6 @@ namespace Services
         public DateOnly? GetMaxDate(int year);
         public int GetLastId();
         List<Semester> GetSemesters();
+        bool GetSemesterByCode(string code);
     }
 }

@@ -81,6 +81,7 @@ namespace CourseManagement
                 }
             }
             enrollmentService.addEnrollment(studentId, courseId, semesterId);
+            MessageBox.Show("Enrollment added successful!");
             this.Close();
         }
     }    
