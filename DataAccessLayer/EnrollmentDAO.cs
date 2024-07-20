@@ -29,23 +29,34 @@ namespace DataAccessLayer
             enrollment.CourseId = courseId;
             enrollment.StudentId = studentId;
             enrollment.SemesterId = semesterId;
-            enrollment.EnrollmentId = enrollments.Count + 1;
-            db.Enrollments.Add(enrollment);
-            db.SaveChanges();
+
+            int enrId = 0;
+            foreach (var enr in  enrollments)
+            {
+                if (enr.EnrollmentId > enrId)
+                {
+                    enrId = enr.EnrollmentId;
+                }
+            }
+            enrollment.EnrollmentId = enrId + 1;
+            CourseManagementDbContext db2 = new CourseManagementDbContext();
+            db2.Enrollments.Add(enrollment);
+            db2.SaveChanges();
 
             var assessments = db.Assessments
                 .Where(ass => ass.CourseId == courseId)
                 .ToList();
 
+            
             foreach (var ass in assessments)
             {
+                CourseManagementDbContext db3 = new CourseManagementDbContext();
                 Mark mark = new Mark();
                 mark.AssessmentId = ass.Id;
                 mark.EnrollmentId = enrollment.EnrollmentId;
                 MarksDAO.addMark(mark);
-            }
-
-            db.SaveChanges();
+                db3.SaveChanges();                
+            }            
 
         }
     }

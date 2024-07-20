@@ -27,6 +27,9 @@ namespace CourseManagement
         public AddEnrollment()
         {
             InitializeComponent();
+            enrollmentService = new EnrollmentService();
+            courseService = new CourseService();
+            semesterService = new SemesterSevice();
             loadStudent();
             loadCourse();
             loadSemester();
@@ -65,7 +68,20 @@ namespace CourseManagement
                 MessageBox.Show("Invalid Field!");
                 return;
             }
-            
+            int studentId = Int32.Parse(cboStudent.SelectedValue.ToString());
+            int semesterId = Int32.Parse(cboSemester.SelectedValue.ToString());
+            int courseId = Int32.Parse(cboCourse.SelectedValue.ToString());
+            var enrollments = enrollmentService.getEnrollment();
+            foreach ( var enrollment in enrollments )
+            {
+                if (enrollment.StudentId == studentId && enrollment.CourseId == courseId)
+                {
+                    MessageBox.Show("Student have already enrolled this course!");
+                    return;
+                }
+            }
+            enrollmentService.addEnrollment(studentId, courseId, semesterId);
+            this.Close();
         }
-    }
+    }    
 }

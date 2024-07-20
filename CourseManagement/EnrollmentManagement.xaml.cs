@@ -154,6 +154,7 @@ namespace CourseManagement
         {
             AddEnrollment addEnrollment = new AddEnrollment();
             addEnrollment.ShowDialog();
+            loadWindow();
         }
     }
 }
