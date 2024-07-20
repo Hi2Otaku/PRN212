@@ -35,14 +35,13 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Course Management System" FontSize="28" FontWeight="Bold" Foreground="#333" Margin="20"/>
             <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button Content="Courses" Click="Courses_Click"/>
-                <Button Content="Students" Click="Students_Click"/>
-                <Button Content="Departments" Click="Departments_Click"/>
-                <Button Content="Semesters" Click="Semesters_Click"/>
-                <Button Content="Enrollments" Click="Enrollments_Click"/>
-                <Button Content="Marks" Click="Marks_Click"/>
+                <Button x:Name="btnCourse" Content="Courses" Click="btnCourse_Click"/>
+                <Button x:Name="btnStudent" Content="Students" Click="btnStudent_Click"/>
+                <Button x:Name="btnDepartment" Content="Departments" Click="btnDepartment_Click"/>
+                <Button x:Name="btnSemester" Content="Semesters" Click="btnSemester_Click"/>
+                <Button x:Name="btnEnroll" Content="Enrollments" Click="btnEnroll_Click"/>
             </WrapPanel>
-            <Button Content="Logout" Click="Logout_Click" Background="#D9534F" BorderBrush="#C9302C"/>
+            <Button Content="Logout" Click="btnLogout_Click" Background="#D9534F" BorderBrush="#C9302C"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -47,8 +47,8 @@ namespace CourseManagement
                 }
                 else
                 {
-                    admin ad = new admin(accountMember);
-                    ad.Show();
+                    Home home = new Home(accountMember);
+                    home.Show();
                     this.Close();
                 }
             }

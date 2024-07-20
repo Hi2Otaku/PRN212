@@ -11,7 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BusinessObjects;
 using CourseManagement.CoursesManage;
+using CourseManagement.SemeterManagement;
 
 namespace CourseManagement
 {
@@ -24,40 +26,52 @@ namespace CourseManagement
         {
             InitializeComponent();
         }
-        private void Courses_Click(object sender, RoutedEventArgs e)
+        public Home(AccountMember accountMember)
         {
+            InitializeComponent();
+            if (accountMember.Role == 2)
+            {
+                btnSemester.Visibility = Visibility.Collapsed;
+                btnCourse.Visibility = Visibility.Collapsed;
+                btnDepartment.Visibility = Visibility.Collapsed;
+            }
+        }
+        private void btnEnroll_Click(object sender, RoutedEventArgs e)
+        {
+            EnrollmentManagement enrollmentManagement = new EnrollmentManagement();
+            enrollmentManagement.ShowDialog();
 
         }
 
-        private void Students_Click(object sender, RoutedEventArgs e)
+        private void btnCourse_Click(object sender, RoutedEventArgs e)
         {
- 
+            CoursesManage.CoursesManage coursesManage = new CoursesManage.CoursesManage();
+            coursesManage.ShowDialog();
         }
 
-        private void Departments_Click(object sender, RoutedEventArgs e)
+        private void btnSemester_Click(object sender, RoutedEventArgs e)
         {
-
+            SemesterManagement semesterManagement = new SemesterManagement();
+            semesterManagement.ShowDialog();
         }
 
-
-        private void Semesters_Click(object sender, RoutedEventArgs e)
+        private void btnStudent_Click(object sender, RoutedEventArgs e)
         {
-        
+            StudentManagement studentManagement = new StudentManagement();
+            studentManagement.ShowDialog();
         }
 
-        private void Enrollments_Click(object sender, RoutedEventArgs e)
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
-          
+            Login n = new Login();
+            this.Close();
+            n.Show();
         }
 
-        private void Marks_Click(object sender, RoutedEventArgs e)
+        private void btnDepartment_Click(object sender, RoutedEventArgs e)
         {
-          
-        }
-
-        private void Logout_Click(object sender, RoutedEventArgs e)
-        {
-
+            Window1 window1 = new Window1();
+            window1.ShowDialog();
         }
     }
 }
