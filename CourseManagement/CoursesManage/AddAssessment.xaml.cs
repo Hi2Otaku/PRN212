@@ -38,32 +38,50 @@ namespace CourseManagement.CoursesManage
                 return;
             }
 
+            // Validate special characters in the Name field
+            if (!System.Text.RegularExpressions.Regex.IsMatch(txtName.Text, @"^[a-zA-Z0-9\s]+$"))
+            {
+                MessageBox.Show("Name cannot contain special characters.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             if (cmbType.SelectedItem == null)
             {
                 MessageBox.Show("Type is required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
             if (!double.TryParse(txtPercent.Text, out double percent) || percent < 0 || percent > 1)
             {
                 MessageBox.Show("Percent must be a number between 0 and 1.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-
-
-            var assessment = new Assessment
+            using (var context = new CourseManagementDbContext())
             {
-                Name = txtName.Text,
-                Type = ((ComboBoxItem)cmbType.SelectedItem).Content.ToString(),
-                Percent = percent,
-                CourseId = courseId 
-            };
+                var totalPercent = context.Assessments
+                                          .Where(a => a.CourseId == courseId)
+                                          .Sum(a => a.Percent);
 
-            var dao = new AssessmentsDAO();
-            dao.CreateAssessment(assessment);
+                if (totalPercent + percent > 1)
+                {
+                    MessageBox.Show("The total percentage of assessments for this course exceeds 100%. You cannot add this assessment.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                var assessment = new Assessment
+                {
+                    Name = txtName.Text,
+                    Type = ((ComboBoxItem)cmbType.SelectedItem).Content.ToString(),
+                    Percent = percent,
+                    CourseId = courseId
+                };
+
+                var dao = new AssessmentsDAO();
+                dao.CreateAssessment(assessment);
+            }
 
             this.Close();
-
         }
 
 
