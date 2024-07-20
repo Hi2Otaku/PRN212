@@ -18,18 +18,14 @@ namespace DataAccessLayer
 
         public static void DeleteCourse(Course course)
         {
-<<<<<<< HEAD
+
+            CourseManagementDbContext _context = new CourseManagementDbContext();
             var existingCourse = _context.Courses.Find(course.Id);
             if (existingCourse != null)
             {
                 _context.Courses.Remove(existingCourse);
                 _context.SaveChanges();
             }
-=======
-            CourseManagementDbContext _context = new CourseManagementDbContext();
-            _context.Courses.Remove(course);
-            _context.SaveChanges(); 
->>>>>>> d27ef21b766e89704dfec946bef1eb2ad0da1ff2
         }
 
         public static void UpdateCourse(Course course)
@@ -39,18 +35,13 @@ namespace DataAccessLayer
             _context.SaveChanges(); 
         }
 
-<<<<<<< HEAD
-        public void CreateCourse(Course NewCourse)
-        {
-            NewCourse.Id = GetNextCourseId();
-            _context.Courses.Add(NewCourse);
-=======
-        public static void CreateCourse(Course course)
+
+        public static void CreateCourse(Course NewCourse)
         {
             CourseManagementDbContext _context = new CourseManagementDbContext();
-            _context.Courses.Add(course);
->>>>>>> d27ef21b766e89704dfec946bef1eb2ad0da1ff2
-            _context.SaveChanges(); 
+            NewCourse.Id = GetNextCourseId();
+            _context.Courses.Add(NewCourse);
+            _context.SaveChanges();
         }
         public static List<int> GetCredits()
         {
@@ -76,8 +67,9 @@ namespace DataAccessLayer
             CourseManagementDbContext _context = new CourseManagementDbContext();
             return _context.Courses.Find(id);
         }
-        private int GetNextCourseId()
+        private static int GetNextCourseId()
         {
+            CourseManagementDbContext _context = new CourseManagementDbContext();
             return _context.Courses.Any() ? _context.Courses.Max(c => c.Id) + 1 : 1;
         }
     }
