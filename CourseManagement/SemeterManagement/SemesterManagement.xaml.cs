@@ -155,7 +155,8 @@ namespace CourseManagement.SemeterManagement
             {
                 endDate = DateOnly.FromDateTime(selectEndDate.Value);
             }
-
+            YearComboBox.Text = "";
+            Load_Year();
             Load_Semester(year, startDate, endDate);
         }
 
@@ -216,37 +217,38 @@ namespace CourseManagement.SemeterManagement
             StartDate.SelectedDate = startDate.Value.ToDateTime(TimeOnly.MinValue);
             EndDate.SelectedDate = endDate.Value.ToDateTime(TimeOnly.MinValue);
             _isUpdating = false;
+            YearComboBox.Text = "";
             Load_Semester(year, startDate, endDate);
         }
 
         private void btnAddCourse_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
 
         private void btnCourses_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
 
         private void btnStudents_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
 
         private void btnDepartments_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
 
         private void btnEnrollment_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
 
         private void btnSemesters_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
     }
 }
