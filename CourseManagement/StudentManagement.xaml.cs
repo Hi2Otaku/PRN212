@@ -29,21 +29,18 @@ namespace CourseManagement
             loadGender();
             loadCountry();
             loadDepartment();
-           
+
 
         }
 
         public void loadGender()
-        { 
-            using (CourseManagementDbContext db = new CourseManagementDbContext())
-            {
-                var listGender = new List<string>
+        {
+            var listGender = new List<string>
                 {
                     "Male",
                     "Female"
                 };
-                cboGender.ItemsSource = listGender;
-            }
+            cboGender.ItemsSource = listGender;
         }
 
         public void loadCountry()
@@ -85,8 +82,8 @@ namespace CourseManagement
             string country = cboCountry.SelectedItem?.ToString();
             string department = cboDepartment.SelectedItem?.ToString();
             StudentDAO dao = new StudentDAO();
-            var students = dao.GetStudent(); 
-            var filteredData =  students.Where(item =>
+            var students = dao.GetStudent();
+            var filteredData = students.Where(item =>
                 (string.IsNullOrEmpty(searchName) || item.Name.ToLower().Contains(searchName)) &&
                 (string.IsNullOrEmpty(gender) || item.Gender == gender) &&
                 (string.IsNullOrEmpty(department) || item.Department == department) &&

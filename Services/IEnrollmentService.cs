@@ -10,5 +10,6 @@ namespace Services
     public interface IEnrollmentService
     {
         List<Enrollment> getEnrollment();
+        void addEnrollment(int studentId, int courseId, int semesterId);
     }
 }

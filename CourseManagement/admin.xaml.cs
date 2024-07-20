@@ -57,7 +57,8 @@ namespace CourseManagement
 
         private void btnStudent_Click(object sender, RoutedEventArgs e)
         {
-
+            StudentManagement studentManagement = new StudentManagement();
+            studentManagement.ShowDialog();
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)

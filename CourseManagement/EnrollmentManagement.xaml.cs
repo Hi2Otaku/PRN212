@@ -149,5 +149,11 @@ namespace CourseManagement
             txtName.Text = "";
             loadWindow();
         }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            AddEnrollment addEnrollment = new AddEnrollment();
+            addEnrollment.ShowDialog();
+        }
     }
 }

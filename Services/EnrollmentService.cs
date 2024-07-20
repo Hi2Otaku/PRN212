@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using DataAccessLayer;
 using Repositories;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,10 @@ namespace Services
         public List<Enrollment> getEnrollment()
         {
             return enrollmentRepository.getEnrollment();
+        }
+        public void addEnrollment(int studentId, int courseId, int semesterId)
+        {
+            enrollmentRepository.addEnrollment(studentId, courseId, semesterId);
         }
     }
 }

@@ -20,5 +20,33 @@ namespace DataAccessLayer
                 .ToList();
             return enrollments;
         }
+
+        public static void addEnrollment(int studentId, int courseId, int semesterId)
+        {
+            CourseManagementDbContext db = new CourseManagementDbContext();
+            var enrollments = db.Enrollments.ToList();
+            Enrollment enrollment = new Enrollment();
+            enrollment.CourseId = courseId;
+            enrollment.StudentId = studentId;
+            enrollment.SemesterId = semesterId;
+            enrollment.EnrollmentId = enrollments.Count + 1;
+            db.Enrollments.Add(enrollment);
+            db.SaveChanges();
+
+            var assessments = db.Assessments
+                .Where(ass => ass.CourseId == courseId)
+                .ToList();
+
+            foreach (var ass in assessments)
+            {
+                Mark mark = new Mark();
+                mark.AssessmentId = ass.Id;
+                mark.EnrollmentId = enrollment.EnrollmentId;
+                MarksDAO.addMark(mark);
+            }
+
+            db.SaveChanges();
+
+        }
     }
 }

@@ -24,6 +24,8 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -62,5 +64,6 @@
 
         <Button x:Name="btnEdit" Content="Edit" Grid.Column="5" Grid.Row="7" Width="130" Click="btnEdit_Click" HorizontalAlignment="Left"/>
 
+        <Button x:Name="btnAdd" Content="Add" Grid.Column="5" Grid.Row="9" Width="130" Click="btnAdd_Click" HorizontalAlignment="Left"/>
     </Grid>
 </Window>
