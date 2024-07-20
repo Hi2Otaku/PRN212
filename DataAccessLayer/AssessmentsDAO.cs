@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,38 +11,64 @@ namespace DataAccessLayer
     public class AssessmentsDAO
     {
 
-        private static List<Assessment> GetAssessment()
+        public List<Assessment> GetAssessments()
         {
-            List<Assessment> assessments = new List<Assessment>();
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            assessments = db.Assessments.ToList();
-            return assessments;
+            using (var db = new CourseManagementDbContext())
+            {
+                return db.Assessments.ToList();
+            }
         }
 
-        private static void DeleteAssessment(Assessment assessment)
+        public Assessment GetAssessmentById(int id)
         {
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            db.Assessments.Remove(assessment);
+            using (var db = new CourseManagementDbContext())
+            {
+                return db.Assessments.Find(id);
+            }
         }
 
-        private static void UpdateAssessment(Assessment assessment)
+        public void CreateAssessment(Assessment assessment)
         {
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            db.Assessments.Update(assessment);
+            assessment.Id = GetNextAssessmentId();
+            using (var db = new CourseManagementDbContext())
+            {
+                db.Assessments.Add(assessment);
+                db.SaveChanges();
+            }
         }
 
-        private static void CreateAssessment(Assessment assessment)
+        public void UpdateAssessment(Assessment assessment)
         {
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            db.Assessments.Add(assessment);
+            using (var db = new CourseManagementDbContext())
+            {
+                db.Assessments.Update(assessment);
+                db.SaveChanges();
+            }
         }
 
-        private static Assessment? GetAssessmentsById(int id)
+
+        public void DeleteAssessment(Assessment assessment)
         {
-            Assessment? assessment = new Assessment();
-            CourseManagementDbContext db = new CourseManagementDbContext();
-            assessment = db.Assessments.Find(id);
-            return assessment;
+            using (var db = new CourseManagementDbContext())
+            {
+                db.Assessments.Remove(assessment);
+                db.SaveChanges();
+            }
         }
+
+        private int GetNextAssessmentId()
+        {
+            using (var db = new CourseManagementDbContext())
+            {
+                return db.Assessments.Any() ? db.Assessments.Max(c => c.Id) + 1 : 1;
+            }
+        }
+        public double GetTotalPercent()
+        {
+            CourseManagementDbContext _context = new CourseManagementDbContext();
+            var totalPercent = _context.Assessments.Sum(a => a.Percent);
+            return (double)totalPercent;
+        }
+
     }
 }
