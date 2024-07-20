@@ -40,12 +40,24 @@ namespace CourseManagement.CoursesManage
 
         private void btnAddAssessment_Click(object sender, RoutedEventArgs e)
         {
-         
-                var addAssessmentWindow = new AddAssessment(courseId);
-                addAssessmentWindow.ShowDialog();
-                LoadAssessments();
-  
+            using (var context = new CourseManagementDbContext())
+            {
+                var totalPercent = context.Assessments
+                                          .Where(a => a.CourseId == courseId)
+                                          .Sum(a => a.Percent);
+
+                if (totalPercent >= 1)
+                {
+                    MessageBox.Show("The total percentage of assessments for this course is already 100%. You cannot add more assessments.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                else
+                {
+                    var addAssessmentWindow = new AddAssessment(courseId);
+                    addAssessmentWindow.ShowDialog();
+                    LoadAssessments();
+                }
+            }
         }
-        }
+    }
 
 }
