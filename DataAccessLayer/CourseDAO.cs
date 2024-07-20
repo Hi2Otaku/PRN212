@@ -10,20 +10,16 @@ namespace DataAccessLayer
 {
     public class CourseDAO
     {
-        private readonly CourseManagementDbContext _context;
-
-        public CourseDAO(CourseManagementDbContext context)
+        public static List<Course> GetCourses()
         {
-            _context = context;
-        }
-
-        public List<Course> GetCourses()
-        {
+            CourseManagementDbContext _context = new CourseManagementDbContext();
             return _context.Courses.ToList();
         }
 
-        public void DeleteCourse(Course course)
+        public static void DeleteCourse(Course course)
         {
+
+            CourseManagementDbContext _context = new CourseManagementDbContext();
             var existingCourse = _context.Courses.Find(course.Id);
             if (existingCourse != null)
             {
@@ -32,20 +28,24 @@ namespace DataAccessLayer
             }
         }
 
-        public void UpdateCourse(Course course)
+        public static void UpdateCourse(Course course)
         {
+            CourseManagementDbContext _context = new CourseManagementDbContext();
             _context.Courses.Update(course);
             _context.SaveChanges(); 
         }
 
-        public void CreateCourse(Course NewCourse)
+
+        public static void CreateCourse(Course NewCourse)
         {
+            CourseManagementDbContext _context = new CourseManagementDbContext();
             NewCourse.Id = GetNextCourseId();
             _context.Courses.Add(NewCourse);
-            _context.SaveChanges(); 
+            _context.SaveChanges();
         }
-        public List<int> GetCredits()
+        public static List<int> GetCredits()
         {
+            CourseManagementDbContext _context = new CourseManagementDbContext();
             using (var command = _context.Database.GetDbConnection().CreateCommand())
             {
                 command.CommandText = "SELECT DISTINCT Credits FROM Courses";
@@ -62,12 +62,14 @@ namespace DataAccessLayer
                 }
             }
         }
-        public Course GetCourseById(int id)
+        public static Course GetCourseById(int id)
         {
+            CourseManagementDbContext _context = new CourseManagementDbContext();
             return _context.Courses.Find(id);
         }
-        private int GetNextCourseId()
+        private static int GetNextCourseId()
         {
+            CourseManagementDbContext _context = new CourseManagementDbContext();
             return _context.Courses.Any() ? _context.Courses.Max(c => c.Id) + 1 : 1;
         }
     }

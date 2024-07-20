@@ -30,16 +30,45 @@ namespace CourseManagement.CoursesManage
             InitializeComponent();
             _context = new CourseManagementDbContext();
             NewCourse = new Course();
+            loadAssessment();
+        }
+
+        public void loadAssessment()
+        {
+            try
+            {
+                List<string> listType = new List<string>()
+                {
+                        "lab",
+                        "quiz",
+                        "assignment",
+                        "Practice Exam",
+                        "Final Exam",
+                        "Class Participation"
+                };
+                dgData.ItemsSource = listType;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can not load Data!");
+            }
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
             string code = txtCourseCode.Text;
             string title = txtCourseTitle.Text;
             string creditsText = txtCredits.Text;
 
             // Check for empty fields
             if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(creditsText))
+=======
+            /*NewCourse.Code = txtCourseCode.Text;
+            NewCourse.Title = txtCourseTitle.Text;
+            if (byte.TryParse(txtCredits.Text, out byte credits))
+>>>>>>> 94a452ed81e8dbbf10229157910f8fc618083d75
             {
                 MessageBox.Show("All fields are required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -81,7 +110,7 @@ namespace CourseManagement.CoursesManage
             MessageBox.Show("Course added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
             DialogResult = true;
-            Close();
+            Close();*/
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -90,11 +119,43 @@ namespace CourseManagement.CoursesManage
             Close();
         }
 
+<<<<<<< HEAD
         private bool IsValidCodeOrTitle(string input)
         {
             // Check for special characters
             Regex regex = new Regex(@"^[a-zA-Z0-9 ]+$");
             return regex.IsMatch(input);
+=======
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void dgData_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                List<string> listType = new List<string>()
+                {
+                        "lab",
+                        "quiz",
+                        "assignment",
+                        "Practice Exam",
+                        "Final Exam",
+                        "Class Participation"
+                };
+                dgData.ItemsSource = listType;
+           
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can not load Data!");
+            }
+        }
+        private void Button_AddAssess(object sender, RoutedEventArgs e)
+        {
+
+>>>>>>> 94a452ed81e8dbbf10229157910f8fc618083d75
         }
     }
 }
